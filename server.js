@@ -1,6 +1,13 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
+const mongoose = require("mongoose");
+
+// database connection
+mongoose
+  .connect(process.env.MONGO_URL)
+  .then(() => console.log("Connected to Database"))
+  .catch((err) => console.log(err));
 
 // User Auth Routes
 const authRoutes = require("./routes/auth");
