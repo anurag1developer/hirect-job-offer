@@ -1,0 +1,22 @@
+You can do one of the following if you want name available in /test2:
+
+Pass the data in the URL using querystring: /test2?name={name}
+Change the route to: /test2/:name
+Use cookies
+Other type of session
+app.get('/test1',(req,res)=>{
+    const name = 'lahiru'
+    res.redirect(`/test2/${name}`)
+    // res.redirect(`/test2/?name=${name}`)
+})
+
+// using req.params
+app.get('/test2/:name',(req,res)=>{
+    let val = req.params.name
+    console.log(val)
+})
+// using query string
+app.get('/test2',(req,res)=>{
+    let val = req.query.name
+    console.log(val)
+})
