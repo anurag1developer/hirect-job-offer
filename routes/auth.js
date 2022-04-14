@@ -7,6 +7,6 @@ const {
 
 router.route("/register").post(registerUser);
 router.route("/login").post(loginUser);
-router.route("/otp/:otpType").post(otpUser);
+router.route("/otp/:userid").post(otpUser);
 
 module.exports = router;

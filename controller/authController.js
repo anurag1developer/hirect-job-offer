@@ -1,6 +1,8 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const otpGenerator = require("otp-generator");
+const { twilloPhone, client } = require("../sendOtp");
+const Otp = require("../models/Otp");
 
 const registerUser = async (req, res, next) => {
   try {
@@ -67,28 +69,48 @@ const loginUser = async (req, res, next) => {
     }
 
     // generate otp expiration time and OTP verified or used
-    // send through fast2sms or twillo and many other services
+    // send through Twillo
 
     const otpG = otpGenerator.generate(6, {
       upperCaseAlphabets: false,
       specialChars: false,
     });
 
-    res.json({ otp: otpG });
+    client.messages
+      .create({
+        body: otpG,
+        from: twilloPhone,
+        to: "+91" + phone,
+      })
+      .then((message) => console.log(message.sid));
+
+    // store otp to database and set expiration time
+    const newOtp = new Otp({
+      value: otpG,
+      owner: userExist._id,
+    });
+    await newOtp.save();
+
     // and send otp to that
+    // res.status(200).json({ newOtp: newOtp });
+    res.redirect(200, `/otp/${userExist._id}`);
   } catch (err) {
     res.status(400).json({ err: err.message });
   }
 };
 
-const otpUser = (req, res, next) => {
+const otpUser = async (req, res, next) => {
   // take otp from login user
-  const loginOtp = req.params.otpType;
-  const typedOtp = req.body.otp;
-  if (loginOtp !== typedOtp) {
-    return res.status(403).send("invalid otp");
+  const loginId = req.params.userid;
+  const foundOtpUser = await Otp.find({ owner: loginId });
+  if (foundOtpUser.length === 0) {
+    return res.status(400).send("No user found");
   }
-  res.send("logged in");
+  const otpTaken = req.body.otp;
+  if (otpTaken === foundOtpUser[foundOtpUser.length - 1].value) {
+    return res.status(200).send("You are logged in");
+  }
+  res.status(400).send("Invalid OTP!!!");
   // check otp typed
 };
 
