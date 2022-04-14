@@ -78,7 +78,7 @@ const loginUser = async (req, res, next) => {
 
     client.messages
       .create({
-        body: otpG,
+        body: "Your OTP is: " + otpG,
         from: twilloPhone,
         to: "+91" + phone,
       })
@@ -103,7 +103,8 @@ const otpUser = async (req, res, next) => {
   // take otp from login user
   const loginId = req.params.userid;
   const foundOtpUser = await Otp.find({ owner: loginId });
-  if (foundOtpUser.length === 0) {
+  const len = foundOtpUser.length;
+  if (len === 0) {
     return res.status(400).send("No user found");
   }
   const otpTaken = req.body.otp;
