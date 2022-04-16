@@ -11,6 +11,8 @@ mongoose
 
 // User Auth Routes
 const authRoutes = require("./routes/auth");
+// Shop Routes
+const shopRoutes = require("./routes/shop");
 
 // Express middleware
 // app.use("view engine", "ejs");
@@ -19,6 +21,8 @@ app.use(express.urlencoded({ extended: false }));
 
 // Use User Auth Routes
 app.use("/auth", authRoutes);
+// Use Shop Routes
+app.use("/shop", shopRoutes);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Server is running at port ${port}`));
