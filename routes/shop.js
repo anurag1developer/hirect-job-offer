@@ -4,12 +4,13 @@ const {
   nearByShop,
   createProduct,
   getGrocery,
+  getProductByCategory,
 } = require("../controller/shopController");
 
-// user says buy me chips from this shop
 router.route("/create").post(createShop);
 router.route("/nearby").post(nearByShop);
 router.route("/create-product").post(createProduct);
-router.route("/:shopid/groceries").post(getGrocery);
+router.route("/get-grocery").post(getGrocery);
+router.route("/get-category-product").post(getProductByCategory);
 
 module.exports = router;
