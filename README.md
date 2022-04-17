@@ -1,9 +1,9 @@
 # Grocery App Api (Made in Nodejs)
 
-## Third Party APIs used 
+## > Third Party APIs used 
 ### Twillo for OTP sending for Two-factor authentication (2FA)
 
-## APIs List
+## > APIs List
 
 ### 1. Sign In with OTP on email or mobile (response will have a field which will specify if user is registered or not).
 ### 2. Registration(name, Address,Area pincode,email,phone)
