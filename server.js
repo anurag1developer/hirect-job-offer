@@ -19,6 +19,10 @@ const shopRoutes = require("./routes/shop");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.get("/", (req, res) => {
+  res.status(200).send("<h1>Grocery App APIs </h1>");
+});
+
 // Use User Auth Routes
 app.use("/auth", authRoutes);
 // Use Shop Routes
